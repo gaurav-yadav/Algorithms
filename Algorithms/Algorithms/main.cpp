@@ -7,13 +7,57 @@
 //
 
 #include <iostream>
+struct node{
+    int data;
+    struct node *next;
+    
+};
+node *head=NULL;
+
+
+void insert(int x){
+//create a new node
+    //check if head == null new node==heaad
+    //else iterate and assign.
+    node *newNode = new node;
+    newNode->data=x;
+    newNode->next=NULL;
+    node *cur =head ;
+    if(cur==NULL)
+    {
+        head=newNode;
+        return;
+    }
+    else
+    {
+    while(cur->next!=NULL)
+    {
+        cur=cur->next;
+    }
+        cur->next=newNode;
+        return;
+    }
+
+}
+
+void print(){
+
+    if(head==NULL){return;}
+    else{
+        node *temp = head;
+        while(temp){
+            std::cout << temp->data << "-->";
+            temp=temp->next;
+        }
+    }
+}
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    std::cout << "Hello, World!\n";
-    int i =0;
-    for (i=0;i<10;i++){
-        std::cout << i  <<std::endl ;
-    }
-    return 0;
+    insert(334);
+    insert(56);
+    insert(34);
+ 
+    print();
+    
 }
