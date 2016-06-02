@@ -40,6 +40,35 @@ void insert(int x){
 
 }
 
+void Del(int x){
+//cases -- head is deleted something else deleted
+    node *temp=head;
+    node * prev=NULL;
+
+    if(temp->data==x)
+    {
+        head=temp->next;
+            
+        return; 
+    }
+    else
+    {
+        while(temp->data!=x)
+        {
+            prev=temp;
+            temp=temp->next;
+
+        }
+        //found the node to be delted-
+        //prev->temp->xyz
+        prev->next=temp->next;
+        free(temp);
+
+    }
+
+
+}
+
 void print(){
 
     if(head==NULL){return;}
@@ -57,7 +86,12 @@ int main(int argc, const char * argv[]) {
     insert(334);
     insert(56);
     insert(34);
- 
+    insert(324);
+    insert(37);
+    print();
+    std::cout << std::endl;
+
+    Del(334);
     print();
     
 }
