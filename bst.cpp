@@ -73,20 +73,114 @@ void bstPostorder(node* head){
 	std::cout << head->data <<  "  " ;
 }
 
+//delete a node -- 
+void DeleteNode(int x){
+//find the node and then -- check the case ..
+	node * iterator= new node;
+	node * parent = new node;
+
+	iterator=root;
+
+	while(iterator){
+		
+//std::cout<< parent->data << "i am here now \n ";
+		if (iterator->data==x) //yay we got the node
+		{
+//std::cout<< "got the node breaking \n ";
+
+			break;
+		}
+		else if (iterator->data>x)
+		{
+			parent=iterator; //to keep track of the node above connecting it.. 
+			iterator=iterator->left;
+		}
+		else
+		{
+			parent=iterator; //to keep track of the node above connecting it.. 
+			iterator=iterator->right;
+		}
+	}
+	//handle the case of match not found .. 
+std::cout << parent->data << "parent data \n";
+std::cout <<iterator->data<<"iterator data \n";
+	//iterator is the node to be deleted
+//handle the cases now - both null  , one is null , nothing is null ,, 
+	if (iterator->left==NULL && iterator->right==NULL){
+		///parent's left or right to be decided... 
+		std::cout<< iterator->data << "should get 16 here \n";
+		std::cout<< parent->data<< "should get 20 hrer \n";
+		if (x>parent->data)
+		{
+			parent->right=NULL;
+			//free(iterator);
+		}
+		else{
+			parent->left=NULL;
+			//free(iterator);  have to fix the issue
+		}
+	}
+	//only one is null
+	if(iterator->left==NULL)
+	{
+			if(parent->data>iterator->data)
+			{
+				parent->left=iterator->right;
+			free(iterator);
+			}
+			else
+			{
+				parent->right=iterator->right;
+				free(iterator);
+			}
+}
+else if (iterator->right==NULL)
+{
+	if(parent->data>iterator->data)
+	{
+		parent->left=iterator->left;
+		free(iterator);
+	}
+	else
+	{
+		parent->left=iterator->right;
+		free(iterator);
+	}
+}
+	
+	//both are not null 
+node * temp=iterator;
+while(temp->left!=NULL)
+{
+	temp=temp->left;
+}//reached the left most elt copy and delete now
+iterator->data=temp->data;
+free(temp);
+
+}
+
  int main(int argc, char const *argv[])
 {
-insertInBst(4);
-insertInBst(3);
-insertInBst(7);
+insertInBst(10);
+insertInBst(12);
+insertInBst(15);
+insertInBst(20);
+insertInBst(16);
+insertInBst(21);
 insertInBst(5);
+insertInBst(3);
+insertInBst(6);
 insertInBst(1);
 insertInBst(2);
 
 //bstInorder(root);
-insertInBst(6);
-insertInBst(28);
+
 //bstInorder(root);
-bstPostorder(root);
+//bstPostorder(root);
+DeleteNode(5);
+bstInorder(root);
+DeleteNode(16);
+bstInorder(root);
 	/* code */
 	return 0;
 }
