@@ -123,6 +123,7 @@ void DeleteNode(int x){
     //only one is null
     if(iterator->left==NULL)
     {
+        std::cout<< " one is null";
         if(parent->data>iterator->data)
         {
             parent->left=iterator->right;
@@ -136,6 +137,7 @@ void DeleteNode(int x){
     }
     else if (iterator->right==NULL)
     {
+        std::cout<<"right is null";
         if(parent->data>iterator->data)
         {
             parent->left=iterator->left;
@@ -148,7 +150,9 @@ void DeleteNode(int x){
         }
     }
     
-    //both are not null 
+    //both are not null
+    std::cout << "toughest case ";
+    std::cout<< iterator->left->data << " <- left    -> right" <<  iterator->right->data << "\n";
     node * temp= new node;
     temp=iterator;
     while(iterator->left!=NULL)
@@ -179,7 +183,7 @@ int main(int argc, char const *argv[])
     
     //bstInorder(root);
     //bstPostorder(root);
-    DeleteNode(5);
+    DeleteNode(1);
     bstInorder(root);
     DeleteNode(16);
     bstInorder(root);
