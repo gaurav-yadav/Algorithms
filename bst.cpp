@@ -56,6 +56,7 @@ void bstInorder(node* head){
     //LRoR
     if(head==NULL)
         return;
+    
     bstInorder(head->left);
     std::cout << head->data << " -->";
     bstInorder(head->right);
@@ -153,22 +154,133 @@ void DeleteNode(int x){
     }
     else
     {
-    //both are not null
-    std::cout << "toughest case ";
-    node * temp= new node;
-    temp=iterator;
+        //both are not null
+        std::cout << "toughest case ";
+        node * temp= new node;
+        temp=iterator;
         iterator=iterator->right; //find min in right branch.
         
-    while(iterator->left!=NULL)
-    {
-        iterator=iterator->left;
-    }//reached the left most elt copy and delete now
-    temp->data=iterator->data;
-    std::cout <<temp->data << "trying to delete this node \n";
-    //free(iterator);
-       free(iterator);
-    
+        while(iterator->left!=NULL)
+        {
+            iterator=iterator->left;
+        }//reached the left most elt copy and delete now
+        temp->data=iterator->data;
+        std::cout <<temp->data << "trying to delete this node \n";
+        //free(iterator);
+        free(iterator);
+        
+    }
 }
+
+void DeleteNode2(int x){
+    if(root==NULL)
+        return;
+    //parse  the tree and find the node to be deleted .
+    node * iterator =root;
+    node * parent=root;
+    while(iterator){
+        
+        //std::cout<< parent->data << "i am here now \n ";
+        if (iterator->data==x) //yay we got the node
+        {
+            //std::cout<< "got the node breaking \n ";
+            
+            break;
+        }
+        else if (iterator->data>x)
+        {
+            parent=iterator; //to keep track of the node above connecting it..
+            iterator=iterator->left;
+        }
+        else
+        {
+            parent=iterator; //to keep track of the node above connecting it..
+            iterator=iterator->right;
+        }
+    }
+    //case 1 both are null
+    if (iterator->right==NULL&& iterator->left==NULL){
+        if(parent->right==iterator){
+            parent->right=NULL;
+            free(iterator);
+            return;
+        }
+        else
+        {
+            //its on the left
+            parent->left=NULL;
+            free(iterator);
+            return;
+        }
+    }
+    else if (iterator->right==NULL) //only one side is null
+    {
+        
+        //parent- iterator -left
+        if(parent->left==iterator)
+        {
+            parent->left=iterator->left;
+            free(iterator);
+            return;
+            
+        }
+        else
+        {
+            //parent ke right me hain
+            parent->right=iterator->left;
+            free(iterator);
+            return;
+            
+        }
+    }
+    else if(iterator->left==NULL)
+    {
+        
+        if(parent->left==iterator)
+        {
+            parent->left=iterator->right;
+            free(iterator);
+            return;
+            
+        }
+        else
+        {
+            //parent ke right me hain
+            parent->right=iterator->right;
+            free(iterator);
+            return;
+            
+        }
+    }
+    else
+    {
+        //both are not null ..
+        //check if its on
+        //gor right
+        node * temp=iterator;
+        parent=iterator;
+        iterator=iterator->right;
+        //find leftmost
+        while(iterator->left){
+            parent=iterator;
+            iterator=iterator->left;
+        }
+        //link it to parent free the itreator
+        temp->data=iterator->data;
+         //point to null
+        if(parent->left==iterator)
+        {
+            parent->left=NULL;
+        }
+        else
+        {
+            parent->right=NULL;
+        }
+        free(iterator); //freed the iterator ..
+       
+        
+        return;
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -184,14 +296,18 @@ int main(int argc, char const *argv[])
     insertInBst(6);
     insertInBst(1);
     insertInBst(2);
+    insertInBst(4);
+    
     
     //bstInorder(root);
     
     //bstInorder(root);
     //bstPostorder(root);
-    DeleteNode(5);
+    std::cout<< "deleting 5 \n";
+    DeleteNode2(5);
     bstInorder(root);
-    DeleteNode(16);
+     std::cout<< "deleting 16\n";
+    DeleteNode2(16);
     bstInorder(root);
     /* code */
     return 0;
